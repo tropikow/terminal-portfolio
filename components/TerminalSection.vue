@@ -1,5 +1,5 @@
 <template>
-  <div class="terminal-mac p-0 rounded-lg shadow-lg max-w-2xl w-full mx-4 relative h-96">
+  <div class="terminal-mac p-0 rounded-lg shadow-lg w-full mx-4 relative h-[500px]">
     <!-- Barra superior estilo MacBook -->
     <div class="terminal-bar flex items-center px-4 py-2 rounded-t-lg">
       <span class="dot dot-red"></span>
@@ -9,12 +9,12 @@
     </div>
     
     <div class="terminal-content px-6 py-4 overflow-y-auto h-full">
-      <pre class="font-mono text-sm text-green-300 leading-relaxed">
+      <pre class="font-mono text-base text-green-300 leading-relaxed">
 <span class="text-blue-400">dev@portfolio</span>:<span class="text-purple-400">~</span>$ <span class="text-white">cat {{ props.filename }}</span>
 
-<span class="text-yellow-400">╔══════════════════════════════════════════════════════════════╗</span>
-<span class="text-yellow-400">║                        {{ props.title.toUpperCase() }}                              ║</span>
-<span class="text-yellow-400">╚══════════════════════════════════════════════════════════════╝</span>
+<span class="text-yellow-400">╔════════════════════════════════════════════════════════╗</span>
+<span class="text-yellow-400">║                        {{ props.title.toUpperCase() }}                        ║</span>
+<span class="text-yellow-400">╚════════════════════════════════════════════════════════╝</span>
 
 {{ props.content }}
 

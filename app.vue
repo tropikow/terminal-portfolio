@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory">
     <!-- Header fijo con avatar -->
     <header class="fixed top-0 left-0 right-0 py-4 z-50">
       <div class="max-w-7xl mx-auto px-8">
@@ -17,12 +17,12 @@
     </header>
 
     <!-- Contenido principal -->
-    <div class="pt-24 pb-8 px-8">
-      <div class="max-w-7xl mx-auto">
+    <div class="pt-20 pb-8 px-8">
+      <div class="max-w-8xl mx-auto">
         <div v-for="(page, pageIndex) in terminalPages" :key="pageIndex" 
-             class="min-h-screen flex items-center justify-center"
+             class="min-h-screen flex items-center justify-center snap-start"
              :ref="el => terminalRefs[pageIndex] = el as HTMLElement">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl">
             <div v-for="(section, sectionIndex) in page" :key="sectionIndex">
               <TerminalSection 
                 :title="section.title"
@@ -149,5 +149,32 @@ header {
 header.scrolled {
   backdrop-filter: blur(10px);
   background: rgba(17, 24, 39, 0.8);
+}
+
+/* Mejoras para scroll snap */
+.snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a202c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a5568;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
 }
 </style>
