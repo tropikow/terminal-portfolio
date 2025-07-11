@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory">
+  <div class="min-h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory scroll-smooth">
     <!-- Header fijo con avatar -->
     <header class="fixed top-0 left-0 right-0 py-4 z-50">
       <div class="max-w-7xl mx-auto px-8">
@@ -25,10 +25,10 @@
     </header>
 
     <!-- Contenido principal -->
-    <div class="pt-32 pb-8 px-8">
+    <div class="pt-40 pb-8 px-8">
       <div class="max-w-8xl mx-auto">
         <div v-for="(page, pageIndex) in terminalPages" :key="pageIndex" 
-             class="min-h-screen flex items-center justify-center snap-start"
+             class="min-h-screen flex items-center justify-center snap-center"
              :ref="el => terminalRefs[pageIndex] = el as HTMLElement">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl">
             <div v-for="(section, sectionIndex) in page" :key="sectionIndex">
@@ -57,7 +57,43 @@ const sections = [
   },
   {
     title: "STACK 🚀",
-    content: "No solo desarrollo, diseño ventajas competitivas. Mi stack mezcla las tecnologías más potentes para que tu proyecto sobresalga, automatice y llegue más lejos.",
+    content: `Frameworks Modernos
+Nuevas tendencias en web y mobile, performance y escalabilidad.
+
+Next.js
+Nuxt.js
+Astro
+React Native
+
+Integraciones Inteligentes
+APIs, backends, bots y conectores para soluciones 100% automatizadas.
+
+REST
+GraphQL
+Firebase
+n8n
+Zapier
+
+Infraestructura & Cloud
+Montaje, optimización y despliegue en la nube.
+
+Vercel
+GCP
+Github Actions
+
+Bases de Datos Robustas
+Modelado y gestión avanzada.
+
+MySQL
+PostgreSQL
+Firestore
+
+UI/UX & Automatización
+Productos hermosos y funcionales, con branding y microinteracciones.
+
+TailwindCSS
+Figma
+Google Apps Script`,
     filename: 'stack.txt'
   },
   {
@@ -109,7 +145,7 @@ onMounted(() => {
     if (currentIndex.value < fullText.length && !isDeleting.value) {
       typedText.value += fullText[currentIndex.value]
       currentIndex.value++
-      setTimeout(typeText, 50) // Velocidad de escritura
+      setTimeout(typeText, 20) // Velocidad de escritura más rápida
     }
   }
 
@@ -118,7 +154,7 @@ onMounted(() => {
     if (typedText.value.length > 0 && isDeleting.value) {
       typedText.value = typedText.value.slice(0, -1)
       currentIndex.value--
-      setTimeout(deleteText, 30) // Velocidad de borrado más rápida
+      setTimeout(deleteText, 10) // Velocidad de borrado mucho más rápida
     } else if (typedText.value.length === 0 && isDeleting.value) {
       isDeleting.value = false
       isVisible.value = false
@@ -138,17 +174,17 @@ onMounted(() => {
     }
     
     // Activar borrado cuando el scroll supera cierto punto
-    if (window.scrollY > 100 && !isDeleting.value && isVisible.value) {
+    if (window.scrollY > 80 && !isDeleting.value && isVisible.value) {
       isDeleting.value = true
       deleteText()
     }
     
     // Regenerar texto cuando el usuario vuelve arriba
-    if (window.scrollY < 50 && !isVisible.value && !isDeleting.value) {
+    if (window.scrollY < 30 && !isVisible.value && !isDeleting.value) {
       isVisible.value = true
       typedText.value = ''
       currentIndex.value = 0
-      setTimeout(typeText, 500) // Pequeño delay antes de empezar a escribir
+      setTimeout(typeText, 200) // Delay más corto antes de empezar a escribir
     }
   })
 })
@@ -207,10 +243,32 @@ header.scrolled {
 /* Mejoras para scroll snap */
 .snap-y {
   scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
-.snap-start {
-  scroll-snap-align: start;
+.snap-center {
+  scroll-snap-align: center;
+}
+
+/* Scroll más suave y controlado */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* Compensa el header fijo */
+}
+
+/* Contenedor principal con scroll optimizado */
+.min-h-screen {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Mejora la experiencia de scroll en dispositivos táctiles */
+@media (hover: none) {
+  .min-h-screen {
+    scroll-snap-type: y proximity;
+  }
 }
 
 /* Scrollbar personalizado */
