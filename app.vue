@@ -3,7 +3,7 @@
     <!-- Header fijo con avatar -->
     <header class="fixed top-0 left-0 right-0 py-4 z-50">
       <div class="max-w-7xl mx-auto px-8">
-        <div class="flex flex-col items-center space-y-2">
+        <div class="flex flex-col items-center space-y-2 min-h-[120px]">
           <img 
             src="/public/avatar.png"
             alt="Avatar" 
@@ -12,7 +12,7 @@
           <h1 class="text-xl font-mono text-green-400 tracking-wider retro-font">
             &lt;&gt; Jovanny Rui<span class="cursor-blink">z</span> &lt;/&gt;
           </h1>
-          <div class="text-center max-w-2xl">
+          <div class="text-center max-w-2xl" :style="{ paddingBottom: `${Math.max(1, (typedText.length / 15))}rem` }">
             <h2 class="text-lg font-mono text-green-400 tracking-wide retro-font mb-2">
               Lleva tu negocio al futuro
             </h2>
@@ -25,7 +25,7 @@
     </header>
 
     <!-- Contenido principal -->
-    <div class="pt-20 pb-8 px-8">
+    <div class="pt-32 pb-8 px-8">
       <div class="max-w-8xl mx-auto">
         <div v-for="(page, pageIndex) in terminalPages" :key="pageIndex" 
              class="min-h-screen flex items-center justify-center snap-start"
