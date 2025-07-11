@@ -12,7 +12,7 @@
           <h1 class="text-xl font-mono text-green-400 tracking-wider retro-font">
             &lt;&gt; Jovanny Rui<span class="cursor-blink">z</span> &lt;/&gt;
           </h1>
-          <div class="text-center max-w-2xl" :style="{ paddingBottom: `${Math.max(1, (typedText.length / 15))}rem` }">
+          <div v-if="isVisible" class="text-center max-w-2xl" :style="{ paddingBottom: `${Math.max(1, (typedText.length / 15))}rem` }">
             <h2 class="text-lg font-mono text-green-400 tracking-wide retro-font mb-2">
               Lleva tu negocio al futuro
             </h2>
@@ -89,6 +89,8 @@ const terminalRefs = ref<HTMLElement[]>([])
 const fullText = "Experto en desarrollo frontend ultra moderno con expertise en backend. Transformo tus ideas en productos digitales listos para liderar el presente... y dominar el futuro."
 const typedText = ref('')
 const currentIndex = ref(0)
+const isDeleting = ref(false)
+const isVisible = ref(true)
 
 // Crear páginas de 2 terminales cada una
 const terminalPages = computed(() => {
@@ -104,10 +106,22 @@ onMounted(() => {
   
   // Efecto de escritura
   const typeText = () => {
-    if (currentIndex.value < fullText.length) {
+    if (currentIndex.value < fullText.length && !isDeleting.value) {
       typedText.value += fullText[currentIndex.value]
       currentIndex.value++
       setTimeout(typeText, 50) // Velocidad de escritura
+    }
+  }
+
+  // Efecto de borrado
+  const deleteText = () => {
+    if (typedText.value.length > 0 && isDeleting.value) {
+      typedText.value = typedText.value.slice(0, -1)
+      currentIndex.value--
+      setTimeout(deleteText, 30) // Velocidad de borrado más rápida
+    } else if (typedText.value.length === 0 && isDeleting.value) {
+      isDeleting.value = false
+      isVisible.value = false
     }
   }
   
@@ -121,6 +135,12 @@ onMounted(() => {
       header?.classList.add('scrolled')
     } else {
       header?.classList.remove('scrolled')
+    }
+    
+    // Activar borrado cuando el scroll supera cierto punto
+    if (window.scrollY > 100 && !isDeleting.value && isVisible.value) {
+      isDeleting.value = true
+      deleteText()
     }
   })
 })
@@ -217,5 +237,21 @@ header.scrolled {
   51%, 100% {
     border-color: #10b981;
   }
+}
+
+/* Transición suave para el contenedor de texto */
+.text-center {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.text-center.v-enter-active,
+.text-center.v-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.text-center.v-enter-from,
+.text-center.v-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
