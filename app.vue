@@ -142,6 +142,14 @@ onMounted(() => {
       isDeleting.value = true
       deleteText()
     }
+    
+    // Regenerar texto cuando el usuario vuelve arriba
+    if (window.scrollY < 50 && !isVisible.value && !isDeleting.value) {
+      isVisible.value = true
+      typedText.value = ''
+      currentIndex.value = 0
+      setTimeout(typeText, 500) // Pequeño delay antes de empezar a escribir
+    }
   })
 })
 </script>
