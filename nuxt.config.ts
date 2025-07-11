@@ -2,6 +2,13 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
-  modules: ['@nuxt/icon', '@nuxt/image','@nuxtjs/tailwindcss'],
-  ssr: false
+  app: {
+    head: {
+      link: [    
+        { rel: 'icon', type: 'image/x-icon', href: '/public/favicon.png' }        
+      ],
+      title: 'Tropikode - Home',
+    }
+  },
+  modules: ['@nuxt/icon', '@nuxt/image','@nuxtjs/tailwindcss'],  
 })
