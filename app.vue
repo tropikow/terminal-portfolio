@@ -1,5 +1,12 @@
 <template>
-  <div class="h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+  <!-- Componente de carga -->
+  <BatteryLoader 
+    :min-load-time="3000" 
+    @loading-complete="onLoadingComplete"
+  />
+  
+  <!-- Contenido principal (oculto hasta que termine la carga) -->
+  <div v-show="!isLoading" class="h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory scroll-smooth">
     <!-- Selector de idioma fijo en la esquina superior izquierda -->
     <div class="fixed top-4 left-4 z-50">
       <div class="flex space-x-2 bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-lg p-2 border border-gray-700">
@@ -59,7 +66,7 @@
         <div class="min-h-screen flex flex-col items-center justify-center snap-start">
           <div class="flex flex-col items-center space-y-4">
               <img 
-                src="/public/avatar.png"
+                src="/avatar.png"
                 alt="Avatar" 
                 class="w-24 h-24 lg:w-32 lg:h-32 rounded-full border-4 border-green-400 shadow-lg object-cover"
               />
@@ -105,6 +112,7 @@ import { useI18n } from '~/composables/useI18n'
 const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage, getStorageStatus } = useI18n()
 
 const terminalRefs = ref<HTMLElement[]>([])
+const isLoading = ref(true)
 
 // Crear páginas de 1 terminal cada una usando el contenido traducido
 const terminalPages = computed(() => {
@@ -114,6 +122,12 @@ const terminalPages = computed(() => {
   }
   return pages
 })
+
+// Función que se ejecuta cuando termina la carga
+const onLoadingComplete = () => {
+  isLoading.value = false
+  console.log('Carga completada, mostrando contenido principal')
+}
 
 onMounted(() => {
   // Inicializar idioma con prioridad: localStorage > navegador > español
