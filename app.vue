@@ -102,7 +102,7 @@ import useScrollAnimations from '~/composables/useScrollAnimations'
 import { useI18n } from '~/composables/useI18n'
 
 // Inicializar internacionalización
-const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage } = useI18n()
+const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage, getStorageStatus } = useI18n()
 
 const terminalRefs = ref<HTMLElement[]>([])
 
@@ -116,9 +116,11 @@ const terminalPages = computed(() => {
 })
 
 onMounted(() => {
-  // Inicializar idioma
-  loadSavedLanguage()
+  // Inicializar idioma con prioridad: localStorage > navegador > español
   initLanguage()
+  
+  // Mostrar estado del localStorage en consola
+  console.log('Estado del localStorage:', getStorageStatus())
   
   useScrollAnimations(terminalRefs.value.filter((el): el is HTMLElement => el !== null))
 })
@@ -164,8 +166,6 @@ html {
   scroll-behavior: smooth;
 }
 
-
-
 /* Mejoras para scroll snap */
 .snap-y {
   scroll-snap-type: y mandatory;
@@ -208,8 +208,6 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #718096;
 }
-
-
 
 /* Scroll snap mejorado para todas las pantallas */
 .snap-y {

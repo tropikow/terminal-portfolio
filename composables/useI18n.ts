@@ -200,38 +200,68 @@ export function useI18n() {
     return 'es' // Por defecto español
   }
 
-  // Inicializar con el idioma detectado
-  const initLanguage = () => {
-    currentLanguage.value = detectLanguage()
+  // Verificar si hay una preferencia guardada en localStorage
+  const getSavedLanguage = (): Language | null => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('preferred-language') as Language
+      if (saved && (saved === 'es' || saved === 'en')) {
+        return saved
+      }
+    }
+    return null
   }
 
-  // Cambiar idioma
+  // Inicializar idioma (prioridad: localStorage > navegador > español)
+  const initLanguage = () => {
+    const saved = getSavedLanguage()
+    if (saved) {
+      currentLanguage.value = saved
+    } else {
+      currentLanguage.value = detectLanguage()
+    }
+  }
+
+  // Cambiar idioma y guardar en localStorage
   const changeLanguage = (lang: Language) => {
     currentLanguage.value = lang
     // Guardar preferencia en localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferred-language', lang)
+      console.log('Idioma guardado en localStorage:', lang)
     }
   }
 
-  // Cargar idioma guardado
+  // Cargar idioma guardado (función separada para compatibilidad)
   const loadSavedLanguage = () => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('preferred-language') as Language
-      if (saved && (saved === 'es' || saved === 'en')) {
-        currentLanguage.value = saved
-      }
+    const saved = getSavedLanguage()
+    if (saved) {
+      currentLanguage.value = saved
+      console.log('Idioma cargado desde localStorage:', saved)
     }
   }
 
   // Contenido computado basado en el idioma actual
   const t = computed(() => content[currentLanguage.value])
 
+  // Función para verificar el estado del localStorage (útil para debug)
+  const getStorageStatus = () => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('preferred-language')
+      return {
+        hasSaved: !!saved,
+        savedValue: saved,
+        currentValue: currentLanguage.value
+      }
+    }
+    return null
+  }
+
   return {
     currentLanguage,
     t,
     initLanguage,
     changeLanguage,
-    loadSavedLanguage
+    loadSavedLanguage,
+    getStorageStatus
   }
 } 
