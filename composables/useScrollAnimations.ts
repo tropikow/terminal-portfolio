@@ -1,9 +1,6 @@
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
 export default function useScrollAnimations(sections: HTMLElement[]) {
+  const nuxtApp = useNuxtApp();
+  const gsap = nuxtApp.$gsap;
   sections.forEach((el, i) => {
     const fromLeft = i % 2 === 0
 
