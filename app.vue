@@ -1,5 +1,33 @@
 <template>
   <div class="h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+    <!-- Selector de idioma fijo en la esquina superior izquierda -->
+    <div class="fixed top-4 left-4 z-50">
+      <div class="flex space-x-2 bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-lg p-2 border border-gray-700">
+        <button 
+          @click="changeLanguage('es')" 
+          :class="[
+            'px-3 py-1 rounded text-sm font-mono transition-colors',
+            currentLanguage === 'es' 
+              ? 'bg-green-500 text-gray-900' 
+              : 'text-green-400 hover:text-green-300 hover:bg-gray-700'
+          ]"
+        >
+          ES
+        </button>
+        <button 
+          @click="changeLanguage('en')" 
+          :class="[
+            'px-3 py-1 rounded text-sm font-mono transition-colors',
+            currentLanguage === 'en' 
+              ? 'bg-green-500 text-gray-900' 
+              : 'text-green-400 hover:text-green-300 hover:bg-gray-700'
+          ]"
+        >
+          EN
+        </button>
+      </div>
+    </div>
+
     <!-- Iconos de redes sociales fijos en la esquina superior derecha -->
     <div class="fixed top-4 right-4 z-50 flex space-x-4">
       <a href="https://www.linkedin.com/in/jovannyruizlovera/" target="_blank" class="text-green-400 hover:text-green-300 transition-colors">
@@ -40,10 +68,10 @@
             </h1>
             <div class="text-center max-w-sm lg:max-w-2xl px-4">
               <h2 class="text-lg lg:text-xl font-mono text-green-400 tracking-wide retro-font mb-2">
-                Lleva tu negocio al futuro
+                {{ t.header.title }}
               </h2>
               <p class="text-sm lg:text-base font-mono text-green-300 tracking-wide retro-font">
-                Experto en desarrollo frontend ultra moderno con expertise en backend. Transformo tus ideas en productos digitales listos para liderar el presente... y dominar el futuro<span class="cursor-blink">_</span>
+                {{ t.header.subtitle }}<span class="cursor-blink">_</span>
               </p>
             </div>
           </div>
@@ -71,105 +99,27 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import useScrollAnimations from '~/composables/useScrollAnimations'
+import { useI18n } from '~/composables/useI18n'
 
-const sections = [
-  {
-    title: "SOBRE MÍ",
-    content: "Soy un developer frontend apasionado con crear experiencias web futuristas, listas para escalar.Cuento con más de 2 años de experiencia diseñando interfaces, automatizando procesos y liderando despliegues en la nube para startups y equipos modernos en toda LATAM.Me especializo en simplificar lo complejo, llevar ideas a producción exprés y convertir productos en generadores de valor. ¿Tu próximo proyecto? ¡Vamos a revolucionarlo juntos!",
-    filename: 'about-me.txt'
-  },
-  {
-    title: "STACK 🚀",
-    content: `Frameworks Modernos
-Nuevas tendencias en web y mobile, performance y escalabilidad.
-
-Next.js
-Nuxt.js
-Astro
-React Native
-
-Integraciones Inteligentes
-APIs, backends, bots y conectores para soluciones 100% automatizadas.
-
-REST
-GraphQL
-Firebase
-n8n
-Zapier
-
-Infraestructura & Cloud
-Montaje, optimización y despliegue en la nube.
-
-Vercel
-GCP
-Github Actions
-
-Bases de Datos Robustas
-Modelado y gestión avanzada.
-
-MySQL
-PostgreSQL
-Firestore
-
-UI/UX & Automatización
-Productos hermosos y funcionales, con branding y microinteracciones.
-
-TailwindCSS
-Figma
-Google Apps Script`,
-    filename: 'stack.txt'
-  },
-  {
-    title: "Experiencia",
-    content: `GetLavado / Laundryheap Perú
-Desarrollador B2B Principal
-2023 - Actualidad
-Automatización y mantenimiento de operaciones para empresas aliadas. 
-Integraciones con OCR, bots de WhatsApp, y manejo de servicios en tiempo real.
-
-JAPI
-Desarrollador Fullstack
-2023
-Desarrollo de soluciones logísticas B2B, integraciones con Slack, 
-automatizaciones con Zapier, y analítica avanzada.
-
-Proyectos varios
-Freelancer
-2022 - 2023
-Portafolios, hackathons, SaaS, whasapp bots, refactorización de 
-plataformas, dashboards, automatizaciones de backend.`,
-    filename: 'experience.txt'
-  },
-  {
-    title: "tropikode.com",
-    content: `Todos los derechos reservados
-
-Para contactos:
-
-LinkedIn: <a href="https://www.linkedin.com/in/jovannyruizlovera/" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://www.linkedin.com/in/jovannyruizlovera/</a>
-X (Twitter): <a href="https://x.com/TropikoW" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://x.com/TropikoW</a>
-Gmail: <a href="mailto:jovannydevops@gmail.com" class="text-blue-400 hover:text-blue-300 underline">jovannydevops@gmail.com</a>
-Github: <a href="https://github.com/tropikow" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://github.com/tropikow</a>
-
-¡Conectemos y llevemos tu proyecto al siguiente nivel!`,
-    filename: 'tropikode.com.txt'
-  }
-]
+// Inicializar internacionalización
+const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage } = useI18n()
 
 const terminalRefs = ref<HTMLElement[]>([])
 
-
-
-// Crear páginas de 1 terminal cada una
+// Crear páginas de 1 terminal cada una usando el contenido traducido
 const terminalPages = computed(() => {
   const pages = []
-  for (let i = 0; i < sections.length; i++) {
-    pages.push([sections[i]])
+  for (let i = 0; i < t.value.sections.length; i++) {
+    pages.push([t.value.sections[i]])
   }
   return pages
 })
 
 onMounted(() => {
+  // Inicializar idioma
+  loadSavedLanguage()
+  initLanguage()
+  
   useScrollAnimations(terminalRefs.value.filter((el): el is HTMLElement => el !== null))
 })
 </script>
