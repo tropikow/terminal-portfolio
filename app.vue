@@ -116,6 +116,20 @@ Freelancer
 Portafolios, hackathons, SaaS, whasapp bots, refactorización de 
 plataformas, dashboards, automatizaciones de backend.`,
     filename: 'experience.txt'
+  },
+  {
+    title: "tropikode.com",
+    content: `Todos los derechos reservados
+
+Para contactos:
+
+LinkedIn: <a href="https://www.linkedin.com/in/jovannyruizlovera/" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://www.linkedin.com/in/jovannyruizlovera/</a>
+X (Twitter): <a href="https://x.com/TropikoW" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://x.com/TropikoW</a>
+Gmail: <a href="mailto:jovannydevops@gmail.com" class="text-blue-400 hover:text-blue-300 underline">jovannydevops@gmail.com</a>
+Github: <a href="https://github.com/tropikow" target="_blank" class="text-blue-400 hover:text-blue-300 underline">https://github.com/tropikow</a>
+
+¡Conectemos y llevemos tu proyecto al siguiente nivel!`,
+    filename: 'tropikode.com.txt'
   }
 ]
 
@@ -254,21 +268,6 @@ header.scrolled {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px; /* Compensa el header fijo */
-}
-
-/* Contenedor principal con scroll optimizado */
-.min-h-screen {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-/* Mejora la experiencia de scroll en dispositivos táctiles */
-@media (hover: none) {
-  .min-h-screen {
-    scroll-snap-type: y proximity;
-  }
 }
 
 /* Scrollbar personalizado */

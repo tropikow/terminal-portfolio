@@ -16,7 +16,7 @@
 <span class="text-yellow-400">║                        {{ props.title.toUpperCase() }}                        ║</span>
 <span class="text-yellow-400">╚════════════════════════════════════════════════════════╝</span>
 
-{{ props.content }}
+<span v-html="props.content"></span>
 
 <span class="text-blue-400">dev@portfolio</span>:<span class="text-purple-400">~</span>$ <span class="text-white"><span class="cursor-blink">_</span></span>
       </pre>
