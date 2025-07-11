@@ -12,6 +12,14 @@
           <h1 class="text-xl font-mono text-green-400 tracking-wider retro-font">
             &lt;&gt; Jovanny Rui<span class="cursor-blink">z</span> &lt;/&gt;
           </h1>
+          <div class="text-center max-w-2xl">
+            <h2 class="text-lg font-mono text-green-400 tracking-wide retro-font mb-2">
+              Lleva tu negocio al futuro
+            </h2>
+            <p class="text-sm font-mono text-green-300 tracking-wide retro-font typing-text">
+              {{ typedText }}
+            </p>
+          </div>
         </div>
       </div>
     </header>
@@ -77,6 +85,11 @@ plataformas, dashboards, automatizaciones de backend.`,
 
 const terminalRefs = ref<HTMLElement[]>([])
 
+// Efecto de escritura para el párrafo
+const fullText = "Experto en desarrollo frontend ultra moderno con expertise en backend. Transformo tus ideas en productos digitales listos para liderar el presente... y dominar el futuro."
+const typedText = ref('')
+const currentIndex = ref(0)
+
 // Crear páginas de 2 terminales cada una
 const terminalPages = computed(() => {
   const pages = []
@@ -88,6 +101,18 @@ const terminalPages = computed(() => {
 
 onMounted(() => {
   useScrollAnimations(terminalRefs.value.filter((el): el is HTMLElement => el !== null))
+  
+  // Efecto de escritura
+  const typeText = () => {
+    if (currentIndex.value < fullText.length) {
+      typedText.value += fullText[currentIndex.value]
+      currentIndex.value++
+      setTimeout(typeText, 50) // Velocidad de escritura
+    }
+  }
+  
+  // Iniciar efecto de escritura después de un pequeño delay
+  setTimeout(typeText, 1000)
   
   // Efecto de blur en header al hacer scroll
   const header = document.querySelector('header')
@@ -176,5 +201,21 @@ header.scrolled {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #718096;
+}
+
+/* Efecto de escritura */
+.typing-text {
+  min-height: 1.5rem;
+  border-right: 2px solid #10b981;
+  animation: blink-cursor 1s infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 50% {
+    border-color: transparent;
+  }
+  51%, 100% {
+    border-color: #10b981;
+  }
 }
 </style>
