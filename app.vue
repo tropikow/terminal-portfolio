@@ -262,6 +262,8 @@ html {
   --terminal-border: #30363d;
   --main-bg: bg-gray-900;
   --main-text: text-green-400;
+  --input-text: #ffffff;
+  --terminal-text: #10b981;
 }
 
 .theme-light {
@@ -269,6 +271,8 @@ html {
   --terminal-border: #e5e7eb;
   --main-bg: bg-gray-100;
   --main-text: text-gray-800;
+  --input-text: #1f2937;
+  --terminal-text: #059669;
 }
 
 /* Transiciones suaves para cambios de tema */

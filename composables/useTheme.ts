@@ -15,7 +15,9 @@ export const useTheme = () => {
       background: 'bg-gray-900',
       text: 'text-green-400',
       terminalBg: '#0d1117',
-      terminalBorder: '#30363d'
+      terminalBorder: '#30363d',
+      inputText: '#ffffff',
+      terminalText: '#10b981'
     },
     light: {
       name: 'Tema Claro',
@@ -23,7 +25,9 @@ export const useTheme = () => {
       background: 'bg-gray-100',
       text: 'text-gray-800',
       terminalBg: '#ffffff',
-      terminalBorder: '#e5e7eb'
+      terminalBorder: '#e5e7eb',
+      inputText: '#1f2937',
+      terminalText: '#059669'
     }
   }
   
@@ -52,6 +56,8 @@ export const useTheme = () => {
     rootElement.style.setProperty('--terminal-border', themeConfig.terminalBorder)
     rootElement.style.setProperty('--main-bg', themeConfig.background)
     rootElement.style.setProperty('--main-text', themeConfig.text)
+    rootElement.style.setProperty('--input-text', themeConfig.inputText)
+    rootElement.style.setProperty('--terminal-text', themeConfig.terminalText)
   }
   
   // Función para obtener el tema guardado

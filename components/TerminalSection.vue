@@ -46,7 +46,7 @@
               @keydown.tab.prevent="handleTabCompletion"
               @keydown.up.prevent="navigateHistory(-1)"
               @keydown.down.prevent="navigateHistory(1)"
-              class="command-input bg-transparent outline-none border-none text-white font-mono text-base leading-none"
+              class="command-input bg-transparent outline-none border-none font-mono text-base leading-none"
               :placeholder="isInputFocused ? '' : 'Click aquí para escribir comandos...'"
               :disabled="!isInputFocused"
               spellcheck="false"
@@ -530,6 +530,7 @@ onMounted(() => {
   line-height: inherit;
   font-size: inherit;
   white-space: pre;
+  color: var(--input-text, #ffffff);
 }
 
 /* Estilos para el input */
@@ -550,6 +551,7 @@ onMounted(() => {
 
 .command-input:focus {
   outline: none;
+  caret-color: var(--terminal-text, #10b981);
 }
 
 /* Placeholder invisible cuando está enfocado */
@@ -559,7 +561,7 @@ onMounted(() => {
 
 /* Estilos para el cursor parpadeante */
 .cursor-blink {
-  color: #10b981;
+  color: var(--terminal-text, #10b981);
   animation: blink 1s infinite;
   margin-left: 0;
   line-height: inherit;
