@@ -68,6 +68,10 @@ interface Props {
   content?: string
 }
 
+interface Emits {
+  (e: 'theme-change', theme: 'default' | 'light'): void
+}
+
 const props = withDefaults(defineProps<Props>(), {
   title: 'SOBRE MÍ',
   filename: 'about-me.txt',
@@ -82,6 +86,8 @@ Me especializo en simplificar lo complejo, llevar ideas a
 producción exprés y convertir productos en generadores de valor. 
 ¿Tu próximo proyecto? ¡Vamos a revolucionarlo juntos!`
 })
+
+const emit = defineEmits<Emits>()
 
 // Referencias
 const commandInput = ref<HTMLInputElement>()
@@ -111,7 +117,9 @@ const availableCommands = {
 • cat [archivo] - Muestra contenido de archivo
 • whoami - Información del usuario actual
 • date - Fecha y hora actual
-• pwd - Directorio actual`
+• pwd - Directorio actual
+• theme_light - Cambiar a tema claro
+• theme_default - Cambiar a tema oscuro`
   },
   clear: {
     description: 'Limpia la terminal',
@@ -260,6 +268,20 @@ Estado: Disponible para proyectos`
   pwd: {
     description: 'Directorio actual',
     response: '/home/dev/portfolio'
+  },
+  theme_light: {
+    description: 'Cambiar a tema claro',
+    response: () => {
+      emit('theme-change', 'light')
+      return '🎨 Tema cambiado a modo claro. ¡Disfruta de la nueva experiencia!'
+    }
+  },
+  theme_default: {
+    description: 'Cambiar a tema oscuro',
+    response: () => {
+      emit('theme-change', 'default')
+      return '🌙 Tema cambiado a modo oscuro. ¡Volviste al estilo original!'
+    }
   }
 }
 
@@ -398,18 +420,19 @@ onMounted(() => {
 
 <style scoped>
 .terminal-mac {
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--terminal-bg, #0d1117);
+  border: 1px solid var(--terminal-border, #30363d);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .terminal-bar {
-  background: #21262d;
+  background: var(--terminal-border, #21262d);
   height: 38px;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--terminal-border, #30363d);
   user-select: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .terminal-title {

@@ -6,7 +6,7 @@
   />
   
   <!-- Contenido principal (oculto hasta que termine la carga) -->
-  <div v-show="!isLoading" class="h-screen bg-gray-900 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+  <div v-show="!isLoading" class="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth" :class="currentThemeInfo.background">
     <!-- Selector de idioma fijo en la esquina superior izquierda -->
     <div class="fixed top-4 left-4 z-50">
       <div class="flex space-x-2 bg-gray-800 bg-opacity-80 backdrop-blur-sm rounded-lg p-2 border border-gray-700">
@@ -93,7 +93,8 @@
               <TerminalSection 
                 :title="section.title"
                 :filename="section.filename" 
-                :content="section.content" 
+                :content="section.content"
+                @theme-change="changeTheme"
               />
             </div>
           </div>
@@ -107,9 +108,14 @@
 import { ref, onMounted, computed } from 'vue'
 import useScrollAnimations from '~/composables/useScrollAnimations'
 import { useI18n } from '~/composables/useI18n'
+import { useTheme } from '~/composables/useTheme'
 
 // Inicializar internacionalización
 const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage, getStorageStatus } = useI18n()
+
+// Inicializar sistema de temas
+const { currentTheme, changeTheme, loadSavedTheme, getCurrentThemeInfo, getAvailableThemes } = useTheme()
+const currentThemeInfo = computed(() => getCurrentThemeInfo())
 
 const terminalRefs = ref<HTMLElement[]>([])
 const isLoading = ref(true)
@@ -132,6 +138,9 @@ const onLoadingComplete = () => {
 onMounted(() => {
   // Inicializar idioma con prioridad: localStorage > navegador > español
   initLanguage()
+  
+  // Cargar tema guardado
+  loadSavedTheme()
   
   // Mostrar estado del localStorage en consola
   console.log('Estado del localStorage:', getStorageStatus())
@@ -245,6 +254,26 @@ html {
 .min-h-screen {
   height: 100vh;
   min-height: 100vh;
+}
+
+/* Estilos para temas */
+.theme-default {
+  --terminal-bg: #0d1117;
+  --terminal-border: #30363d;
+  --main-bg: bg-gray-900;
+  --main-text: text-green-400;
+}
+
+.theme-light {
+  --terminal-bg: #ffffff;
+  --terminal-border: #e5e7eb;
+  --main-bg: bg-gray-100;
+  --main-text: text-gray-800;
+}
+
+/* Transiciones suaves para cambios de tema */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Desktop específico - asegurar que funcione en pantallas grandes */
