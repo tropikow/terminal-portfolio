@@ -114,7 +114,7 @@ import { useTheme } from '~/composables/useTheme'
 const { currentLanguage, t, initLanguage, changeLanguage, loadSavedLanguage, getStorageStatus } = useI18n()
 
 // Inicializar sistema de temas
-const { currentTheme, changeTheme, loadSavedTheme, getCurrentThemeInfo, getAvailableThemes } = useTheme()
+const { currentTheme, changeTheme, loadSavedTheme, getCurrentThemeInfo, getAvailableThemes, getThemeStorageStatus } = useTheme()
 const currentThemeInfo = computed(() => getCurrentThemeInfo())
 
 const terminalRefs = ref<HTMLElement[]>([])
@@ -143,7 +143,8 @@ onMounted(() => {
   loadSavedTheme()
   
   // Mostrar estado del localStorage en consola
-  console.log('Estado del localStorage:', getStorageStatus())
+  console.log('Estado del localStorage (idioma):', getStorageStatus())
+  console.log('Estado del localStorage (tema):', getThemeStorageStatus())
   
   useScrollAnimations(terminalRefs.value.filter((el): el is HTMLElement => el !== null))
 })

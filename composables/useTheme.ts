@@ -82,6 +82,16 @@ export const useTheme = () => {
     }))
   }
   
+  // Función para obtener el estado del localStorage del tema
+  const getThemeStorageStatus = () => {
+    const savedTheme = localStorage.getItem('portfolio-theme')
+    return {
+      hasTheme: !!savedTheme,
+      currentTheme: savedTheme || 'default',
+      availableThemes: Object.keys(themes)
+    }
+  }
+  
   // Observar cambios en el tema para aplicar automáticamente
   watch(currentTheme, (newTheme) => {
     applyTheme(newTheme)
@@ -94,6 +104,7 @@ export const useTheme = () => {
     loadSavedTheme,
     getCurrentThemeInfo,
     getAvailableThemes,
+    getThemeStorageStatus,
     applyTheme
   }
 } 
