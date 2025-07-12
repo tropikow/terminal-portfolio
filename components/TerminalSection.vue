@@ -35,6 +35,10 @@
         <div class="command-line flex items-baseline" @click="focusInput">
           <span class="text-blue-400">dev@portfolio</span>:<span class="text-purple-400">~</span>$ 
           <span class="text-white command-input-wrapper">
+            <div class="input-display">
+              <span class="input-text">{{ currentCommand }}</span>
+              <span v-if="isInputFocused" class="cursor-blink">_</span>
+            </div>
             <input
               ref="commandInput"
               v-model="currentCommand"
@@ -48,7 +52,6 @@
               spellcheck="false"
               autocomplete="off"
             />
-            <span v-if="isInputFocused" class="cursor-blink">_</span>
           </span>
         </div>
       </div>
@@ -485,6 +488,25 @@ onMounted(() => {
   display: inline-flex;
   align-items: baseline;
   margin-left: 0.25rem;
+  position: relative;
+}
+
+.input-display {
+  display: inline-flex;
+  align-items: baseline;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.input-text {
+  line-height: inherit;
+  font-size: inherit;
+  white-space: pre;
 }
 
 /* Estilos para el input */
@@ -498,11 +520,13 @@ onMounted(() => {
   background: transparent;
   min-width: 1rem;
   flex: 1;
+  color: transparent;
+  position: relative;
+  z-index: 2;
 }
 
 .command-input:focus {
   outline: none;
-  caret-color: #10b981;
 }
 
 /* Placeholder invisible cuando está enfocado */
@@ -510,11 +534,13 @@ onMounted(() => {
   color: transparent;
 }
 
-/* Asegurar que el cursor esté alineado */
+/* Estilos para el cursor parpadeante */
 .cursor-blink {
+  color: #10b981;
+  animation: blink 1s infinite;
+  margin-left: 0;
   line-height: inherit;
   font-size: inherit;
-  margin-left: 0;
 }
 
 /* Responsive adjustments */
